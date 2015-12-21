@@ -1,0 +1,18 @@
+body {
+    margin-top: 5em;
+    margin-left: 20em;
+    margin-right: 20em;
+    background-color: ghostwhite;
+}
+
+textarea {
+    resize:vertical;
+}
+
+h1 {
+    color: black;
+}
+
+h3 {
+    color: black;
+}
