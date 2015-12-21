@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 
+spam_analysis.pdf
+/spambase/*
+
 # C extensions
 *.so
 
