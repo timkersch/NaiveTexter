@@ -15,6 +15,7 @@
 
 <br>
 
+{% csrf_token %}
 {% bootstrap_form input %}
 
 <br>
@@ -23,8 +24,10 @@
 
 <br>
 
-{% csrf_token %}
-{% bootstrap_form details %}
+<div class="form-group">
+    <label for="details">Details:</label>
+    <textarea class="form-control" rows="10" id="details" disabled>{{ details }}</textarea>
+</div>
 
 
 </body>

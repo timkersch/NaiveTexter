@@ -7,7 +7,3 @@ class TextForm(forms.Form):
 
 class ImmutableTextForm(forms.Form):
 	text = forms.CharField(label="Processed text", help_text="", widget=forms.Textarea(attrs={'cols':10, 'disabled':'true'}))
-
-
-class ImmutableTextForm2(forms.Form):
-	text = forms.CharField(label="Details", help_text="", widget=forms.Textarea(attrs={'cols':10, 'disabled':'true'}))
