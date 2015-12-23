@@ -16,4 +16,4 @@ class IdentifierWord(models.Model):
 	word = models.CharField(max_length=30)
 
 	def get_word(self):
-		return self.word
+		return self.word.__str__()
