@@ -15,7 +15,7 @@ def index(request):
 				data_arr[i,:] = db_data[i].get_data()
 			bayes = NaiveBayes(form.cleaned_data['text'], data_arr)
 			classification = bayes.get_classification_str()
-			data = str(bayes.get_text_data())
+			data = str(bayes.get_text_datapoint())
 
 			return render(request, 'text_analysis/results.html',{
 				'input': ImmutableTextForm(request.POST),
