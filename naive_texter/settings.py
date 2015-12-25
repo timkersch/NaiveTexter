@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-	'text_analysis',
+	'spam_classifier',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

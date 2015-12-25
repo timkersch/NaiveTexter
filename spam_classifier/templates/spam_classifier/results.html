@@ -1,0 +1,34 @@
+{% load staticfiles %}
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spam classifier</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'spam_classifier/style.css' %}" />
+</head>
+<body>
+
+<h1>Results</h1>
+
+<br>
+
+{% csrf_token %}
+{% bootstrap_form input %}
+
+<br>
+
+<h3>Classified as {{ isspam }}</h3>
+
+<br>
+
+<div class="form-group">
+    <label for="details">Details:</label>
+    <textarea class="form-control" rows="10" id="details" disabled>{{ details }}</textarea>
+</div>
+
+
+</body>
+</html>
