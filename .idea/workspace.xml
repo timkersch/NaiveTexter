@@ -2,31 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0bc0e546-0f60-4c16-8df7-fc423dd7b778" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/text_analysis/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/text_analysis/migrations/0001_initial.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/text_analysis/migrations/0002_identifierword.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/admin.py" afterPath="$PROJECT_DIR$/spam_classifier/admin.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/custom_fields.py" afterPath="$PROJECT_DIR$/spam_classifier/custom_fields.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/data/__init__.py" afterPath="$PROJECT_DIR$/spam_classifier/data/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/data/initial_insert.py" afterPath="$PROJECT_DIR$/spam_classifier/data/initial_insert.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/data/spambase.DOCUMENTATION" afterPath="$PROJECT_DIR$/spam_classifier/data/spambase.DOCUMENTATION" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/data/spambase.data" afterPath="$PROJECT_DIR$/spam_classifier/data/spambase.data" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/data/spambase.names" afterPath="$PROJECT_DIR$/spam_classifier/data/spambase.names" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/data/spambase_words.py" afterPath="$PROJECT_DIR$/spam_classifier/data/spambase_words.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/forms.py" afterPath="$PROJECT_DIR$/spam_classifier/forms.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/migrations/__init__.py" afterPath="$PROJECT_DIR$/spam_classifier/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/models.py" afterPath="$PROJECT_DIR$/spam_classifier/models.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/naive_bayes.py" afterPath="$PROJECT_DIR$/spam_classifier/naive_bayes.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/static/text_analysis/style.css" afterPath="$PROJECT_DIR$/spam_classifier/static/spam_classifier/style.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/templates/text_analysis/index.html" afterPath="$PROJECT_DIR$/spam_classifier/templates/spam_classifier/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/templates/text_analysis/results.html" afterPath="$PROJECT_DIR$/spam_classifier/templates/spam_classifier/results.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/tests.py" afterPath="$PROJECT_DIR$/spam_classifier/tests.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/urls.py" afterPath="$PROJECT_DIR$/spam_classifier/urls.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/text_analysis/views.py" afterPath="$PROJECT_DIR$/spam_classifier/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/naive_texter/settings.py" afterPath="$PROJECT_DIR$/naive_texter/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/naive_texter/urls.py" afterPath="$PROJECT_DIR$/naive_texter/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <ignored path="NaiveTexter.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,28 +36,7 @@
     <favorites_list name="NaiveTexter" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="initial_insert.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spam_classifier/data/initial_insert.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/spam_classifier/data/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -134,6 +89,7 @@
         <option value="$PROJECT_DIR$/spam_classifier/templates/spam_classifier/index.html" />
         <option value="$PROJECT_DIR$/spam_classifier/__init__.py" />
         <option value="$PROJECT_DIR$/spam_classifier/data/__init__.py" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -576,19 +532,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="MultiMarkdownFxHtmlEditor">
-        <state />
-      </provider>
-      <provider editor-type-id="MultiMarkdownFxPreviewEditor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.72148544">
@@ -642,13 +585,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.9287411">
           <caret line="81" column="11" selection-start-line="81" selection-start-column="11" selection-end-line="81" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spam_classifier/data/spambase.DOCUMENTATION">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.8527316">
-          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="54" selection-end-column="60" />
         </state>
       </provider>
     </entry>
@@ -780,14 +716,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spam_classifier/data/initial_insert.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spam_classifier/data/spambase_words.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5673759">
@@ -796,10 +724,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/spam_classifier/data/spambase.DOCUMENTATION">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17730497">
+          <caret line="5" column="49" selection-start-line="5" selection-start-column="49" selection-end-line="5" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="MultiMarkdownFxHtmlEditor">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="MultiMarkdownFxPreviewEditor">
+        <state />
+      </provider>
+      <provider editor-type-id="split-provider[text-editor;MultiMarkdownPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor vertical-scroll-proportion="0.0">
+            <caret line="0" column="13" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/spam_classifier/data/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spam_classifier/data/initial_insert.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17730497">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
         </state>
       </provider>
