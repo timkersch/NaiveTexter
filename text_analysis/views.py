@@ -1,17 +1,26 @@
 from django.shortcuts import render
 from .forms import TextForm, ImmutableTextForm
 from naive_bayes import NaiveBayes
+from models import SpamData
+import numpy as np
 
 
 def index(request):
 	if request.method == 'POST':
 		form = TextForm(request.POST)
 		if form.is_valid():
-			bayes = NaiveBayes(form.cleaned_data['text'])
+			db_data = SpamData.objects.all()
+			data_arr = np.empty([len(db_data), 58])
+			for i in range(0, len(db_data)):
+				data_arr[i,:] = db_data[i].get_data()
+			bayes = NaiveBayes(form.cleaned_data['text'], data_arr)
+			classification = bayes.get_classification_str()
+			data = str(bayes.get_text_data())
+
 			return render(request, 'text_analysis/results.html',{
 				'input': ImmutableTextForm(request.POST),
-				'isspam': bayes.get_classification_str(),
-				'details': str(bayes.get_text_data())
+				'isspam': classification,
+				'details': data
 			})
 
 	else:
