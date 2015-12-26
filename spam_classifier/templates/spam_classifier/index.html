@@ -5,6 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Spam classifier</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'spam_classifier/style.css' %}" />
@@ -14,8 +16,8 @@
 <h1>Welcome!</h1>
 <br>
 <h3>
-    Enter a text in the field below to analyze it with naive-bayes classifier to know if this
-    text would be classified as spam.
+    Enter a text in the field below and select your method of analysis.
+    Click submit to find out if the text would be classified as spam or not.
 </h3>
 
 <br>
@@ -23,6 +25,28 @@
 <form action="" method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
+    
+    <div class = "btn-group">
+        <button type = "button" class = "btn btn-default dropdown-toggle" data-toggle = "dropdown">
+            Naive bayes
+            <span class = "caret"></span>
+        </button>
+
+        <ul class = "dropdown-menu" role = "menu">
+            <li><a href = "#">Naive bayes</a></li>
+            <li><a href = "#">Perceptron</a></li>
+            <li><a href = "#">SVM</a></li>
+            <li><a href = "#">k-NN</a></li>
+        </ul>
+
+        <script type="text/javascript">
+        $(".dropdown-menu li a").click(function(){
+        $(this).parents(".btn-group").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+        $(this).parents(".btn-group").find('.btn').val($(this).data('value'));
+        });
+        </script>
+    </div>
+
     <button type="submit" class="btn btn-success">Analyze</button>
 </form>
 
