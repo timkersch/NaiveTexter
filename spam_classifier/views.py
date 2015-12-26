@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .forms import TextForm, ImmutableTextForm
 from naive_bayes import NaiveBayes
 from models import SpamData
+from text_preprocessing import preprocess
 import numpy as np
 
 
@@ -10,12 +11,14 @@ def index(request):
 		form = TextForm(request.POST)
 		if form.is_valid():
 			db_data = SpamData.objects.all()
-			data_arr = np.empty([len(db_data), 58])
+			training_data = np.empty([len(db_data), 58])
 			for i in range(0, len(db_data)):
-				data_arr[i,:] = db_data[i].get_data()
-			bayes = NaiveBayes(form.cleaned_data['text'], data_arr)
-			classification = bayes.get_classification_str()
-			data = str(bayes.get_text_datapoint())
+				training_data[i,:] = db_data[i].get_data()
+
+			input_vector = preprocess(form.cleaned_data['text'])
+			bayes = NaiveBayes(input_vector, training_data)
+			classification = bayes.get_classification()
+			data = str(bayes.get_input_vector())
 
 			return render(request, 'spam_classifier/results.html',{
 				'input': ImmutableTextForm(request.POST),
