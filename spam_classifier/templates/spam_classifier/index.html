@@ -33,21 +33,22 @@
         </button>
 
         <ul class = "dropdown-menu" role = "menu">
-            <li><a href = "#">Naive bayes</a></li>
-            <li><a href = "#">Perceptron</a></li>
-            <li><a href = "#">SVM</a></li>
-            <li><a href = "#">k-NN</a></li>
+            <li><a href = "#" id="nb">Naive bayes</a></li>
+            <li><a href = "#" id="per">Perceptron</a></li>
+            <li><a href = "#" id="svm">SVM</a></li>
+            <li><a href = "#" id="knn">k-NN</a></li>
         </ul>
 
         <script type="text/javascript">
         $(".dropdown-menu li a").click(function(){
+            document.getElementById('submitbtn').name=$(this).text();
         $(this).parents(".btn-group").find('.btn').html($(this).text() + ' <span class="caret"></span>');
         $(this).parents(".btn-group").find('.btn').val($(this).data('value'));
         });
         </script>
     </div>
 
-    <button type="submit" class="btn btn-success">Analyze</button>
+    <button id="submitbtn" type="submit" class="btn btn-success" name="Naive Bayes">Analyze</button>
 </form>
 
 
