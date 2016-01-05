@@ -1,95 +1,60 @@
 from __future__ import division
 import numpy as np
 import math as math
+from classifier import Classifier
 
 
-class NaiveBayes:
-	input_vector = None
-	training_data = None
+class NaiveBayes(Classifier):
+	"""
+	This class is used to classify spam messages using the naive bayes classifier.
+	"""
 	training_data_stat_list = None
 
-	__classification = None
-
-	def __init__(self, input_vector, training_data):
-		"""
-		Constructor, sets instance variables and computes a class divided training data statistics list
-		:param input_vector: A preprocessed text in the form of a vector
-		:param training_data: A matrix with training data
-		:return: Nothing
-		"""
-		self.input_vector = input_vector
-		self.training_data = training_data
-
-		# Separate the spam and not spam classes
-		spam, notspam = NaiveBayes._separate_classes(training_data)
-
-		# Get mean and var for all attributes of both classes
-		stat_spam = NaiveBayes._attributes_statistics(spam)
-		stat_notspam = NaiveBayes._attributes_statistics(notspam)
+	def __init__(self, training_data):
+		super(NaiveBayes, self).__init__(training_data)
 
 		# Make a list of the classification classes
-		self.training_data_stat_list = [stat_spam, stat_notspam]
+		self.training_data_stat_list = self.__statistics_list(training_data)
 
-	def classify(self):
-		"""
-		This method classifies the datapoint specified in the constructor using a naive bayes classifier.
-		The classifier uses the previously classified data also specified in the constructor.
-		:return: 1 if spam 0 if not spam
-		"""
-		if self.__classification is None:
-			self.__classification = NaiveBayes._predict(self.training_data_stat_list, self.input_vector[0:self.input_vector.size - 1])
-			self.input_vector[self.input_vector.size - 1] = self.__classification
-		return self.__classification
+	def classify(self, input_vector):
+		classification = NaiveBayes.__get_prediction(self.training_data_stat_list, input_vector[0:input_vector.size - 1])
+		input_vector[input_vector.size - 1] = classification
+		return classification
 
-	def get_classification(self):
+	def accuracy(self, validation_set):
 		"""
-		A helper-method that returns a string. "Spam" or "Not Spam" based on classified data
-		:return: a string "Spam" or "Not Spam"
+		Computes the percent of correct classifications on a set of known values.
+		:param validation_set: the set to check the algorithm accuracy with
+		:return: The percent of correctly classified texts in the validation set
 		"""
-		if self.classify() == 1:
-			return "Spam"
-		else:
-			return "Not Spam"
-
-	def get_input_vector(self):
-		"""
-		Returns a new data point that is the input vector + the classification in the last column
-		:return: a 58 element numpy array extracted from the text
-		"""
-		if self.__classification is None:
-			self.classify()
-		return self.input_vector
-
-	def get_accuracy(self):
-		"""
-		Test the algorithm by comparing how many of the training-set datapoints the algorithm classifies correctly
-		:return: The percentage of correct classifications of the training-set
-		"""
-		predictions = NaiveBayes._get_predictions(self.training_data_stat_list, self.training_data)
+		predictions = NaiveBayes.__get_predictions(self.training_data_stat_list, validation_set)
 		class_correct = 0
 		for i in range(0, predictions.size):
-			if predictions[i] == self.training_data[i, self.training_data[0,:].size-1]:
+			if predictions[i] == validation_set[i, validation_set[0,:].size-1]:
 				class_correct += 1
-		return (class_correct/self.training_data[:,0].size) * 100
+		return (class_correct/validation_set[:,0].size) * 100
 
 	@staticmethod
-	def _separate_classes(dataset):
+	def __statistics_list(dataset):
 		"""
-		Separates data classes
-		:param dataset: the data to separate
-		:return: a tuple of numpy arrays with the two classes, 0 and 1
+		Computes the statistics list of a dataset
+		:param dataset: the dataset to be processed
+		:return: a list of two numpy arrays with their attribute statistics
 		"""
-		spam_class = []
-		not_spam_class = []
-		for i in range(0, dataset[:, 0].size):
-			if dataset[i, dataset[0, :].size-1] == 1:
-				spam_class.append(dataset[i, :])
-			else:
-				not_spam_class.append(dataset[i, :])
-		return np.array(spam_class), np.array(not_spam_class)
+		# Separate the spam and not spam classes
+		spam, notspam = NaiveBayes._separate_data_classes(dataset)
+
+		# Get mean and var for all attributes of both classes
+		stat_spam = NaiveBayes.__attributes_statistics(spam)
+		stat_notspam = NaiveBayes.__attributes_statistics(notspam)
+
+		# Make a list of the classification classes
+		training_data_stat_list = [stat_spam, stat_notspam]
+
+		return training_data_stat_list
 
 	@staticmethod
-	def _attributes_statistics(dataset):
+	def __attributes_statistics(dataset):
 		"""
 		Computes a matrix with the mean and standard deviation of each attribute
 		:param dataset: the data to extract mean and standard deviation from
@@ -102,7 +67,7 @@ class NaiveBayes:
 		return attr_summaries
 
 	@staticmethod
-	def _get_class_probabilities(mean_var_matrix, input_vec):
+	def __class_probabilities(mean_var_matrix, input_vec):
 		"""
 		Computes the probabilities that a input vector belongs to classes
 		:param mean_var_matrix: a matric with the mean and standard deviation of all attributes
@@ -117,21 +82,21 @@ class NaiveBayes:
 		return probabilities
 
 	@staticmethod
-	def _predict(mean_var_matrix, input_vec):
+	def __get_prediction(mean_var_matrix, input_vec):
 		"""
 		Predict which class an input vector belongs to
 		:param mean_var_matrix: a matrix with the mean and standard deviation of all attributes
 		:param input_vec: the input vector
 		:return: 0 if classified as not spam and 1 if classified as spam
 		"""
-		probs = NaiveBayes._get_class_probabilities(mean_var_matrix, input_vec)
+		probs = NaiveBayes.__class_probabilities(mean_var_matrix, input_vec)
 		if probs[0] > probs[1]:
 			return 1
 		else:
 			return 0
 
 	@staticmethod
-	def _get_predictions(mean_var_matrix, data_set):
+	def __get_predictions(mean_var_matrix, data_set):
 		"""
 		Predicts which classes a input matrix belongs to
 		:param mean_var_matrix: a matrix with the mean and standard deviation of all attributes
@@ -140,21 +105,9 @@ class NaiveBayes:
 		"""
 		predictions = np.empty(data_set[:,0].size)
 		for i in range(0, predictions.size):
-			prediction = NaiveBayes._predict(mean_var_matrix, data_set[i, :-1])
+			prediction = NaiveBayes.__get_prediction(mean_var_matrix, data_set[i, :-1])
 			predictions[i] = prediction
 		return predictions
-
-	@staticmethod
-	def _split_dataset(dataset, splitratio=0.67):
-		"""
-		Randomly divide a dataset into a test and a validation set
-		:param splitratio: the ratio of which to split the dataset
-		:return: a tuple (trainset, validationset)
-		"""
-		permutated_data = np.random.permutation(dataset)
-		train = permutated_data[0:splitratio*permutated_data[:,0].size, :]
-		validate = permutated_data[splitratio*permutated_data[:,0].size:, :]
-		return train, validate
 
 	@staticmethod
 	def __gaussian_prob_dens(datapoint, mean, stdev):

@@ -2,9 +2,9 @@ import numpy as np
 from data.spambase_words import words, chars
 
 
-def preprocess(text):
+def text_to_frequencies(text):
 	"""
-	Preprocesses the text with extraction of capital letter, word and char frequencies.
+	Preprocesses the text with extraction of capital letters, word and char frequencies.
 	:param text: the text to be preprocessed
 	:return: an array with extracted frequencies
 	"""
@@ -16,7 +16,7 @@ def preprocess(text):
 
 	# Calculate frequency of each char
 	for i in range(0, len(chars)):
-		analysis_arr[i + len(text)] = _char_freq(text, text[i])
+		analysis_arr[i + len(words)] = _char_freq(text, text[i])
 
 	cc = _cap_count(text)
 

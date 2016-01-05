@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .forms import TextForm, ImmutableTextForm
 from naive_bayes import NaiveBayes
 from models import SpamData
-from text_preprocessing import preprocess
+from preprocess import text_to_frequencies
 import numpy as np
 
 
@@ -15,14 +15,17 @@ def index(request):
 			for i in range(0, len(db_data)):
 				training_data[i,:] = db_data[i].get_data()
 
-			input_vector = preprocess(form.cleaned_data['text'])
-			bayes = NaiveBayes(input_vector, training_data)
-			classification = bayes.get_classification()
-			data = str(bayes.get_input_vector())
+			input_vector = text_to_frequencies(form.cleaned_data['text'])
+			bayes = NaiveBayes(training_data)
+			classification = bayes.classify(input_vector)
+			data = str(np.append(classification, input_vector))
+			str_class = "NOT SPAM"
+			if classification == 1:
+				str_class = "SPAM"
 
 			return render(request, 'spam_classifier/results.html',{
 				'input': ImmutableTextForm(request.POST),
-				'isspam': classification,
+				'isspam': str_class,
 				'details': data
 			})
 
