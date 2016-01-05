@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 
 spam_analysis.pdf
+.idea/
+/.idea/
+.idea/*
+.idea/workspace.xml
 
 # C extensions
 *.so
