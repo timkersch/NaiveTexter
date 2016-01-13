@@ -5,8 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Spam classifier</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'spam_classifier/style.css' %}" />
@@ -25,7 +23,7 @@
 <form action="" method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    <button id="submitbtn" type="submit" class="btn btn-success" name="Naive Bayes">Analyze</button>
+    <button id="submitbtn" type="submit" class="btn btn-success">Analyze</button>
 </form>
 
 
