@@ -16,6 +16,7 @@ def index(request):
 				training_data[i,:] = db_data[i].get_data()
 
 			input_vector = text_to_frequencies(form.cleaned_data['text'])
+			choice = form.cleaned_data['choice']
 			bayes = NaiveBayes(training_data)
 			classification = bayes.classify(input_vector)
 			data = str(np.append(classification, input_vector))
