@@ -16,16 +16,22 @@ def text_to_frequencies(text):
 
 	# Calculate frequency of each char
 	for i in range(0, len(chars)):
-		analysis_arr[i + len(words)] = _char_freq(text, text[i])
+		analysis_arr[i + len(words)] = _char_freq(text, chars[i])
 
 	cc = _cap_count(text)
 
-	# Average length of sequence of capital letters
-	analysis_arr[len(chars) + len(words)] = sum(cc) / len(cc)
-	# Max length of sequence of capital letters
-	analysis_arr[len(chars) + len(words) + 1] = max(cc)
+	if len(cc) != 0:
+		# Average length of sequence of capital letters
+		analysis_arr[len(chars) + len(words)] = sum(cc) / len(cc)
+		# Max length of sequence of capital letters
+		analysis_arr[len(chars) + len(words) + 1] = max(cc)
+	else:
+		analysis_arr[len(chars) + len(words)] = 0
+		analysis_arr[len(chars) + len(words) + 1] = 0
+
 	# Number of capital letters
 	analysis_arr[len(chars) + len(words) + 2] = sum(cc)
+
 	# Dummy classification value
 	analysis_arr[analysis_arr.size-1] = -1
 

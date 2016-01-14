@@ -19,7 +19,6 @@ def index(request):
 			choice = form.cleaned_data['choice']
 			bayes = NaiveBayes(training_data)
 			classification = bayes.classify(input_vector)
-			data = str(np.append(classification, input_vector))
 			str_class = "NOT SPAM"
 			if classification == 1:
 				str_class = "SPAM"
@@ -27,7 +26,7 @@ def index(request):
 			return render(request, 'spam_classifier/results.html',{
 				'input': ImmutableTextForm(request.POST),
 				'isspam': str_class,
-				'details': data
+				'details': input_vector
 			})
 
 	else:
