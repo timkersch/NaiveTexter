@@ -58,3 +58,7 @@ class Classifier:
 			else:
 				not_spam_class.append(dataset[i, :])
 		return np.array(spam_class), np.array(not_spam_class)
+
+	@staticmethod
+	def _normalize_data(data):
+		pass
