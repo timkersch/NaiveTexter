@@ -1,3 +1,5 @@
-Django==1.9.1
+Django == 1.9.1
+matplotlib == 1.5.1
+numpy == 1.10.4
+scikit_learn == 0.17
 django-bootstrap3==6.2.2
-numpy==1.10.4

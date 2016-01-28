@@ -3,6 +3,7 @@ from django import forms
 CHOICES = (
     ('nb', 'Naive bayes'),
     ('per', 'Perceptron'),
+    ('mlper', 'Multilayer perceptron'),
     ('svm', 'SVM'),
     ('knn', 'k-NN')
 )

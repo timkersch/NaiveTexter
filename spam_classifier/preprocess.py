@@ -1,5 +1,6 @@
 import numpy as np
 from data.spambase_words import words, chars
+from sklearn import preprocessing
 
 
 def text_to_frequencies(text):
@@ -8,7 +9,7 @@ def text_to_frequencies(text):
 	:param text: the text to be preprocessed
 	:return: an array with extracted frequencies
 	"""
-	analysis_arr = np.empty(58)
+	analysis_arr = np.empty(57)
 
 	# Calculate frequency of each word
 	for i in range(0, len(words)):
@@ -32,10 +33,35 @@ def text_to_frequencies(text):
 	# Number of capital letters
 	analysis_arr[len(chars) + len(words) + 2] = sum(cc)
 
-	# Dummy classification value
-	analysis_arr[analysis_arr.size-1] = -1
-
 	return analysis_arr
+
+
+def split_dataset(dataset, splitratio=0.67):
+	"""
+	Randomly divide a dataset into a test and a validation set
+	:param dataset: the dataset to split
+	:param splitratio: the ratio of which to split the dataset
+	:return: a tuple (trainset, validationset)
+	"""
+	permutated_data = np.random.permutation(dataset)
+	train = permutated_data[0:(splitratio*permutated_data[:,0].size), :]
+	validate = permutated_data[(splitratio*permutated_data[:,0].size):, :]
+	return train, validate
+
+
+def normalize_data(data, ignore_class_col=True):
+	"""
+	Normalizes the values in an numpy array
+	:param data: the data to be normalized
+	:param ignore_class_col: wheter or not to ignore the last column
+	i.e the class
+	:return: a new normalized dataset
+	"""
+	if ignore_class_col:
+		data[:,:-1] = preprocessing.scale(data[:,:-1])
+		return data
+	else:
+		return preprocessing.scale(data)
 
 
 def _word_freq(text, word):
@@ -76,7 +102,7 @@ def _cap_count(text):
 					else:
 						uppers += 1
 			cap_count.append(uppers)
-			i += j+1
+			i += i+1
 		else:
 			i += 1
 	return cap_count

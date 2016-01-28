@@ -10,11 +10,9 @@ class NaiveBayes(Classifier):
 	"""
 	training_data_stat_list = None
 
-	def __init__(self, training_data):
-		super(NaiveBayes, self).__init__(training_data)
-
-		# Make a list of the classification classes
-		self.training_data_stat_list = self.__statistics_list(training_data)
+	def __init__(self, training_data_stat_list = None):
+		if training_data_stat_list is not None:
+			self.training_data_stat_list = training_data_stat_list
 
 	def classify(self, input_vector):
 		classification = NaiveBayes.__get_prediction(self.training_data_stat_list, input_vector[0:input_vector.size - 1])
@@ -33,6 +31,9 @@ class NaiveBayes(Classifier):
 			if predictions[i] == validation_set[i, validation_set[0,:].size-1]:
 				class_correct += 1
 		return (class_correct/validation_set[:,0].size) * 100
+
+	def train(self, training_data):
+		self.training_data_stat_list = self.__statistics_list(training_data)
 
 	@staticmethod
 	def __statistics_list(dataset):

@@ -9,16 +9,6 @@ class Classifier:
 	for identifying spam messages.
 	"""
 	__metaclass__ = ABCMeta
-	training_data = None
-
-	@abstractmethod
-	def __init__(self, training_data):
-		"""
-		Constructor
-		:param training_data: A matrix with training data
-		:return: Nothing
-		"""
-		self.training_data = training_data
 
 	@abstractmethod
 	def classify(self, input_vector):
@@ -29,19 +19,6 @@ class Classifier:
 		:return: 1 if spam 0 if not spam
 		"""
 		pass
-
-	@staticmethod
-	def split_data_set(dataset, splitratio=0.67):
-		"""
-		Randomly divide a dataset into a test and a validation set
-		:param dataset: the dataset to split
-		:param splitratio: the ratio of which to split the dataset
-		:return: a tuple (trainset, validationset)
-		"""
-		permutated_data = np.random.permutation(dataset)
-		train = permutated_data[0:(splitratio*permutated_data[:,0].size), :]
-		validate = permutated_data[(splitratio*permutated_data[:,0].size):, :]
-		return train, validate
 
 	@staticmethod
 	def _separate_data_classes(dataset):
@@ -58,7 +35,3 @@ class Classifier:
 			else:
 				not_spam_class.append(dataset[i, :])
 		return np.array(spam_class), np.array(not_spam_class)
-
-	@staticmethod
-	def _normalize_data(data):
-		pass

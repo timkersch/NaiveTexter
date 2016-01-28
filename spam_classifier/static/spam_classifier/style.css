@@ -16,3 +16,7 @@ h1 {
 h3 {
     color: black;
 }
+
+img {
+    max-width: 100%
+}
