@@ -6,30 +6,8 @@ except:
 import base64
 
 
-class SeparatedValuesField(models.TextField):
-	__metaclass__ = models.SubfieldBase
-
-	def __init__(self, *args, **kwargs):
-		self.token = kwargs.pop('token', ',')
-		super(SeparatedValuesField, self).__init__(*args, **kwargs)
-
-	def to_python(self, value):
-		if not value: return
-		if isinstance(value, list):
-			return value
-		return value.split(self.token)
-
-	def get_db_prep_value(self, value, connection, prepared=False):
-		if not value: return
-		assert(isinstance(value, list) or isinstance(value, tuple))
-		return self.token.join([unicode(s) for s in value])
-
-	def value_to_string(self, obj):
-		value = self._get_val_from_obj(obj)
-		return self.get_db_prep_value(value)
-
-
 class SerializedDataField(models.TextField):
+	# TODO remove and implement from_db_value
 	__metaclass__ = models.SubfieldBase
 
 	def to_python(self, value):
@@ -41,3 +19,7 @@ class SerializedDataField(models.TextField):
 	def get_db_prep_save(self, value, connection, prepared=False):
 		if value is None: return
 		return base64.b64encode(pickle.dumps(value))
+
+	# TODO implement
+	#def from_db_value(self, value, expression, connection, context):
+	#	pass

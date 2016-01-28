@@ -8,6 +8,7 @@ from preprocess import text_to_frequencies, normalize_data
 import numpy as np
 import logging
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 

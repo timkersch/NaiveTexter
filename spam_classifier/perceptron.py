@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import datetime
 import logging
 
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
