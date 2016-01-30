@@ -36,7 +36,7 @@ def text_to_frequencies(text):
 	return analysis_arr
 
 
-def split_dataset(dataset, splitratio=0.67):
+def split_dataset(dataset, splitratio=0.7):
 	"""
 	Randomly divide a dataset into a test and a validation set
 	:param dataset: the dataset to split

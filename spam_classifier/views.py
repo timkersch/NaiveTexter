@@ -4,7 +4,7 @@ from naive_bayes import NaiveBayes
 from perceptron import Perceptron
 from multi_layer_perceptron import MultiLayerPerceptron
 from models import SpamData
-from preprocess import text_to_frequencies, normalize_data
+from preprocess import text_to_frequencies, normalize_data, split_dataset
 import numpy as np
 import logging
 
@@ -38,23 +38,21 @@ def index(request):
 				bayes = NaiveBayes()
 				bayes.train(training_data)
 				classification = bayes.classify(input_vector)
-				accuracy = bayes.accuracy(training_data)
+				accuracy = str(bayes.accuracy(training_data))
 
-			elif choice == "per":
-				logger.info("Perceptron")
-				percep = Perceptron([57,1])
-				accuracy_arr = percep.train(normalize_data(training_data), iterations=100, samples=2, get_accuracy_arr=True)
-				classification = percep.classify(input_vector)
-				imgdir = 'img/' + percep.plot(np.arange(accuracy_arr.size), accuracy_arr, dir)
-				accuracy = accuracy_arr[accuracy_arr.size-1]
+			elif choice == "per" or choice == "mlper":
+				if choice == "per":
+					logger.info("Perceptron")
+					network = Perceptron([57,1], eta=0.1)
+				else:
+					logger.info("Multi-layer Perceptron")
+					network = MultiLayerPerceptron([57, 17, 1], eta=0.1)
 
-			elif choice == "mlper":
-				logger.info("Multi-layer perceptron")
-				mpercep = MultiLayerPerceptron([57, 29, 1])
-				accuracy_arr = mpercep.train(normalize_data(training_data), iterations=10, samples=1, get_accuracy_arr=True)
-				classification = mpercep.classify(input_vector)
-				imgdir = 'img/' + mpercep.plot(np.arange(accuracy_arr.size), accuracy_arr, dir)
-				accuracy = accuracy_arr[accuracy_arr.size-1]
+				training_data, valid_data = split_dataset(training_data)
+				accuracy_train, accuracy_valid = network.train(normalize_data(training_data), normalize_data(valid_data), iterations=1000000, samples=1000)
+				classification = network.classify(normalize_data(input_vector, False))
+				imgdir = 'img/' + network.plot(dir, np.arange(accuracy_train.size), accuracy_train, accuracy_valid)
+				accuracy = "Train: " + str(accuracy_train[accuracy_train.size-1]) + "% - Valid: " + str(accuracy_valid[accuracy_valid.size-1]) + "%"
 
 			elif choice == "svm":
 				logger.info("Support vector machine")
@@ -64,7 +62,7 @@ def index(request):
 				logger.info("k nearest neighbor")
 				pass
 
-			accuracy = "Accuracy: " + accuracy.__str__() + "%"
+			accuracy = "Accuracy: " + accuracy
 			str_class = "NOT SPAM"
 			if classification == 1:
 				str_class = "SPAM"

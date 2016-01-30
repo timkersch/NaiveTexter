@@ -39,7 +39,7 @@ class Perceptron(Classifier):
 			self.biases = biases
 			self.weights = weights
 
-	def train(self, train_data, iterations=10000, samples=1000, get_accuracy_arr=False):
+	def train(self, train_data, valid_data=None, iterations=10000, samples=100):
 		"""
 		Train the network with a set
 		:param train_data: the data to train the network with
@@ -50,8 +50,9 @@ class Perceptron(Classifier):
 		"""
 
 		logger.info('Train with - iterations: ' + iterations.__str__() + ' - samples: ' + samples.__str__())
-		if get_accuracy_arr:
-			accuracy = np.empty([samples])
+		if valid_data is not None:
+			accuracy_train = np.empty([samples])
+			accuracy_valid = np.empty([samples])
 
 		for j in range(0, iterations):
 			randindex = np.random.random_integers(0, train_data[:,0].size-1)
@@ -59,44 +60,15 @@ class Perceptron(Classifier):
 			randout = train_data[randindex, train_data[0,:].size-1]
 			self._backpropagation(randin, randout)
 
-			if get_accuracy_arr and iterations % (iterations / samples) == 0:
-				accuracy[j / (iterations/samples)] = self.accuracy(train_data)
+			if valid_data is not None and j % (iterations / samples) == 0:
 				logger.debug('Iteration: ' + j.__str__() + ' of: ' + iterations.__str__())
+				accuracy_train[j / (iterations/samples)] = self.accuracy(train_data)
+				accuracy_valid[j / (iterations/samples)] = self.accuracy(valid_data)
 
-		if get_accuracy_arr:
-			return accuracy
+		if valid_data is not None:
+			return accuracy_train, accuracy_valid
 		else:
 			return self.accuracy(train_data)
-
-	def train_and_validate(self, train_data, valid_data, iterations=10000, samples=1000, get_accuracy_arr=False):
-		"""
-		Train the network with a set and then validate it with another set
-		:param train_data: the data to train the network with
-		:param valid_data: the data to validate the network with
-		:param iterations: number of iterations to be performed
-		:param samples: number of samples of the accuracy to collect during execution
-		:param get_accuracy_arr: wether or not the accuracy should be computed during execution
-		:return: the accuracy of the validation set after training or an array of accuracy computed during exec
-		"""
-
-		logger.info('Train with - iterations: ' + iterations.__str__() + ' - samples: ' + samples.__str__())
-		if get_accuracy_arr:
-			accuracy = np.empty([samples])
-
-		for j in range(0, iterations):
-			randindex = np.random.random_integers(0, train_data[:,0].size-1)
-			randin = train_data[randindex, :-1]
-			randout = train_data[randindex, train_data[0,:].size-1]
-			self._backpropagation(randin, randout)
-
-			if get_accuracy_arr and iterations % (iterations / samples) == 0:
-				accuracy[j / (iterations/samples)] = self.accuracy(valid_data)
-				logger.debug('Iteration: ' + j.__str__() + ' of: ' + iterations.__str__())
-
-		if get_accuracy_arr:
-			return accuracy
-		else:
-			return self.accuracy(valid_data)
 
 	def classify(self, invector):
 		"""
@@ -129,11 +101,11 @@ class Perceptron(Classifier):
 
 	# Activation function
 	def _activation_function(self, b):
-		return np.tanh(self.beta * b)
+		return 1/(1+np.exp(-b))
 
 	# Derivative of the activation function
 	def _activation_prime(self, b):
-		return self.beta * (1 - np.power(np.tanh(self.beta * b), 2))
+		return self._activation_function(b)*(1-self._activation_function(b))
 
 	# The backpropagation algorithm
 	def _backpropagation(self, in_vector, expected_out):
@@ -155,8 +127,7 @@ class Perceptron(Classifier):
 		self.weights[0] += delta_vector
 		self.biases[0] += delta_bias
 
-	@staticmethod
-	def plot(x, y, savedir):
+	def plot(self, savedir, time, train, valid=None):
 		"""
 		Generates a plot and returns the source to it
 		:param x: values in x-axis
@@ -165,9 +136,13 @@ class Perceptron(Classifier):
 		:return: the filename
 		"""
 		fig = plt.figure()
-		plt.plot(x, y, '-gx')
-		plt.legend("Correct classifications in percent")
-		src = 'plt-gen-' + datetime.datetime.now().isoformat() + '.png'
+		plt.plot(time, train, '-gx')
+		if valid is not None:
+			plt.plot(time, valid, '-bo')
+			plt.legend(("Train", "Valid"))
+		else:
+			plt.legend("Train")
+		src = "size-" + self.network_size.__str__() + "-eta-" + self.eta.__str__() + '-time-' + datetime.datetime.now().isoformat() + '.png'
 		file = savedir + '/' + src
 		plt.savefig(file)
 		plt.close(fig)
@@ -176,7 +151,7 @@ class Perceptron(Classifier):
 
 	@staticmethod
 	def _to_binary(data):
-		if data <= 0:
+		if data < 0.5:
 			return 0
 		else:
 			return 1
