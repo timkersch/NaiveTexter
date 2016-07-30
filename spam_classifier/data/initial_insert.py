@@ -1,5 +1,5 @@
 import numpy as np
-from spam_classifier.models import SpamData, IdentifierWord
+from spam_classifier.ml_models import SpamData, IdentifierWord
 from spambase_words import words
 
 

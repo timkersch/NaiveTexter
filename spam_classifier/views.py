@@ -1,12 +1,14 @@
-from django.shortcuts import render
-from .forms import TextForm, ImmutableTextForm
-from naive_bayes import NaiveBayes
-from perceptron import Perceptron
-from multi_layer_perceptron import MultiLayerPerceptron
-from models import SpamData
-from preprocess import text_to_frequencies, normalize_data, split_dataset
-import numpy as np
 import logging
+
+import numpy as np
+from django.shortcuts import render
+from multi_layer_perceptron import MultiLayerPerceptron
+from naive_bayes import NaiveBayes
+
+from ml_models import SpamData
+from preprocess import text_to_frequencies, normalize_data, split_dataset
+from spam_classifier.ml_models.perceptron import Perceptron
+from .forms import TextForm, ImmutableTextForm
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

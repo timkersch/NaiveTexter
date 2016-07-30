@@ -5,7 +5,9 @@ CHOICES = (
     ('per', 'Perceptron'),
     ('mlper', 'Multilayer perceptron'),
     ('svm', 'SVM'),
-    ('knn', 'k-NN')
+    ('knn', 'k-NN'),
+    ('dt', 'Decision tree'),
+    ('rf', 'Random Forrest')
 )
 
 class TextForm(forms.Form):
