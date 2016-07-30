@@ -60,6 +60,8 @@ def index(request):
 			elif choice == "dt":
 				dt = DecisionTree()
 				dt.train(training_data)
+				accuracy = dt.print_tree()
+				classification = 1
 
 			elif choice == "svm":
 				logger.info("Support vector machine")

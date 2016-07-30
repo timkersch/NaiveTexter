@@ -5,6 +5,8 @@ from classifier import Classifier
 
 class DecisionTree(Classifier):
 
+	tree = None
+
 	class DecisionNode:
 		def __init__(self, column_index=-1, matching_value=None, true_node=None, false_node=None, result=None):
 			self.column_index = column_index
@@ -84,22 +86,25 @@ class DecisionTree(Classifier):
 		# For every column except result column
 		for col in range(0, data[0,:].size-1):
 			column_value_set = {}
-
-			# For every row
 			for row in range(0, data[:,0].size):
-				column_value_set[data[row][col]] = 1
+				value = data[row][col]
 
-			# For every distinct column value
-			for val in column_value_set.keys():
-				set1, set2 = DecisionTree.__split_set(data, col, val)
+				# Skip if this split was already computed
+				if value in column_value_set:
+					continue
+				else:
+					set1, set2 = DecisionTree.__split_set(data, col, value)
 
-				# Compute information gain
-				p = float(set1.size)/data[:,0].size
-				gain = current_score - p * DecisionTree.__entropy(set1) - (1-p) * DecisionTree.__entropy(set2)
-				if (gain > best_gain and set1.size > 0 and set2.size > 0):
-					best_gain = gain
-					best_criteria = (col, val)
-					best_sets = (set1, set2)
+					# Compute information gain
+					p = float(set1.size)/data[:,0].size
+					gain = current_score - p * DecisionTree.__entropy(set1) - (1-p) * DecisionTree.__entropy(set2)
+
+					# Set as best if gain improved
+					if (gain > best_gain and set1.size > 0 and set2.size > 0):
+						best_gain = gain
+						best_criteria = (col, value)
+						best_sets = (set1, set2)
+					column_value_set[value] = True
 
 		if best_gain > 0:
 			true_branch = DecisionTree.__buildtree(best_sets[0])
@@ -109,8 +114,25 @@ class DecisionTree(Classifier):
 		else:
 			return DecisionTree.DecisionNode(result=DecisionTree.__unique_count(data))
 
+	@staticmethod
+	def print_tree_rec(tree, indent=''):
+		# Is this a leaf node?
+		if tree.result is not None:
+			print str(tree.result)
+		else:
+			# Print the criteria
+			print str(tree.column_index)+':'+str(tree.matching_value)+'? '
+			# Print the branches
+			print indent+'T->',
+			DecisionTree.print_tree_rec(tree.true_node, indent+'  ')
+			print indent+'F->',
+			DecisionTree.print_tree_rec(tree.false_node, indent+'  ')
+
+	def print_tree(self):
+		DecisionTree.print_tree_rec(self.tree)
+
 	def classify(self, input_vector):
 		pass
 
 	def train(self, training_data):
-		DecisionTree.__buildtree(training_data)
+		self.tree = DecisionTree.__buildtree(training_data)
