@@ -2,13 +2,13 @@ import logging
 
 import numpy as np
 from django.shortcuts import render
-from ml_models.multi_layer_perceptron import MultiLayerPerceptron
-from ml_models.naive_bayes import NaiveBayes
-from ml_models.decision_tree import DecisionTree
 
+from ml.decision_tree import DecisionTree
+from ml.multi_layer_perceptron import MultiLayerPerceptron
+from ml.naive_bayes import NaiveBayes
 from models import SpamData
-from preprocess import text_to_frequencies, normalize_data, split_dataset
-from spam_classifier.ml_models.perceptron import Perceptron
+from spam_classifier.ml.perceptron import Perceptron
+from spam_classifier.ml.preprocess import text_to_frequencies, normalize_data, split_dataset
 from .forms import TextForm, ImmutableTextForm
 
 logging.basicConfig(level=logging.INFO)
@@ -60,7 +60,8 @@ def index(request):
 			elif choice == "dt":
 				dt = DecisionTree()
 				dt.train(training_data)
-				accuracy = dt.print_tree()
+				dt.print_tree()
+				accuracy = ""
 				classification = 1
 
 			elif choice == "svm":

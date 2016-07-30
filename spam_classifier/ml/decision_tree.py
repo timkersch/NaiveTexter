@@ -73,7 +73,7 @@ class DecisionTree(Classifier):
 		return entropy
 
 	@staticmethod
-	def __buildtree(data):
+	def __build_tree(data):
 		if data.size == 0:
 			return DecisionTree.DecisionNode()
 
@@ -107,8 +107,8 @@ class DecisionTree(Classifier):
 					column_value_set[value] = True
 
 		if best_gain > 0:
-			true_branch = DecisionTree.__buildtree(best_sets[0])
-			false_branch = DecisionTree.__buildtree(best_sets[1])
+			true_branch = DecisionTree.__build_tree(best_sets[0])
+			false_branch = DecisionTree.__build_tree(best_sets[1])
 			return DecisionTree.DecisionNode(column_index=best_criteria[0], matching_value=best_criteria[1],
 			                                 true_node=true_branch, false_node=false_branch)
 		else:
@@ -132,7 +132,19 @@ class DecisionTree(Classifier):
 		DecisionTree.print_tree_rec(self.tree)
 
 	def classify(self, input_vector):
-		pass
+		return DecisionTree.__rec_classify(self.tree, input_vector)
+
+	@staticmethod
+	def __rec_classify(tree, input_vector):
+		# Return result if leaf
+		if tree.result is not None:
+			return tree.result
+
+		# Traverse the tree towards a leaf
+		if input_vector[tree.column_index] >= tree.matching_value:
+			return DecisionTree.__rec_classify(tree.true_node, input_vector)
+		else:
+			return DecisionTree.__rec_classify(tree.false_node, input_vector)
 
 	def train(self, training_data):
-		self.tree = DecisionTree.__buildtree(training_data)
+		self.tree = DecisionTree.__build_tree(training_data)

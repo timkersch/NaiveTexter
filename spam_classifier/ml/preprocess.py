@@ -1,5 +1,5 @@
 import numpy as np
-from data.spambase_words import words, chars
+from spam_classifier.data.spambase_words import words, chars
 from sklearn import preprocessing
 
 
