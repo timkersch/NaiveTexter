@@ -37,7 +37,7 @@ class DecisionTree(Classifier):
 	@staticmethod
 	def __unique_count(data_set):
 		result_count = {}
-		for i in range(0, data_set[0].size):
+		for i in range(0, data_set[:,0].size):
 			result = data_set[i][:-1]
 			if result not in result_count:
 				result_count[result] = 0
@@ -46,7 +46,7 @@ class DecisionTree(Classifier):
 
 	@staticmethod
 	def __gini(data_set):
-		no_rows = data_set[0].size
+		no_rows = data_set[:,0].size
 		unique_map = DecisionTree.__unique_count(data_set)
 		impurity = 0
 		for key in unique_map.keys():
@@ -64,20 +64,45 @@ class DecisionTree(Classifier):
 		unique_map = DecisionTree.__unique_count(data_set)
 		entropy = 0.0
 		for key in unique_map.keys():
-			p = float(unique_map[key]/data_set[0].size)
+			p = float(unique_map[key]/data_set[:,0].size)
 			entropy -= p * np.log2(p)
 		return entropy
 
 	@staticmethod
 	def __buildtree(data, score_function=__entropy):
-		if len(data) == 0:
-			return DecisionTree.DecisionNode()
 		current_score = score_function(data_set=data)
 
 		best_gain = 0.0
 		best_criteria = None
 		best_sets = None
-		# TODO
+
+		# For every column except result column
+		for col in range(0, data[0,:-1].size):
+			column_value_set = {}
+
+			# For every row
+			for row in range(0, data[:,0].size):
+				column_value_set[data[row][col]] = 1
+
+			# For every distinct column value
+			for val in column_value_set.keys():
+				set1, set2 = DecisionTree.__split_set(data, col, val)
+
+				# Compute information gain
+				p = float(set1.size)/data[:,0].size
+				gain = current_score - p * score_function(set1) - (1-p) * score_function(set2)
+				if (gain > best_gain and set1.size > 0 and set2.size > 0):
+					best_gain = gain
+					best_criteria = (col, val)
+					best_sets = (set1, set2)
+
+		if best_gain > 0:
+			trueBranch = DecisionTree.__buildtree()
+			falseBranch = DecisionTree.__buildtree()
+			return DecisionTree.DecisionNode(column_index=best_criteria[0], matching_value=best_criteria[1],
+			                                 true_node=trueBranch, false_node=falseBranch)
+		else:
+			return DecisionTree.DecisionNode(result=DecisionTree.__unique_count(data))
 
 	def classify(self, input_vector):
 		pass
