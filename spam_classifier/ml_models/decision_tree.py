@@ -26,22 +26,24 @@ class DecisionTree(Classifier):
 
 		set1 = []
 		set2 = []
-		for i in range(0, data_set[0].size):
+		for i in range(0, data_set[:,0].size):
 			if split_function(i):
-				set1.append(data_set[i])
+				set1.append(data_set[i,:])
 			else:
-				set2.append(data_set[i])
+				set2.append(data_set[i,:])
 
 		return np.array(set1), np.array(set2)
 
 	@staticmethod
 	def __unique_count(data_set):
 		result_count = {}
-		for i in range(0, data_set[:,0].size):
-			result = data_set[i][:-1]
-			if result not in result_count:
-				result_count[result] = 0
-			result_count[result] += 1
+		if data_set.size != 0:
+			result_list = data_set[:,-1]
+			for i in range(0, result_list.size):
+				result = float(result_list[i])
+				if result not in result_count:
+					result_count[result] = 0
+				result_count[result] += 1
 		return result_count
 
 	@staticmethod
@@ -69,15 +71,18 @@ class DecisionTree(Classifier):
 		return entropy
 
 	@staticmethod
-	def __buildtree(data, score_function=__entropy):
-		current_score = score_function(data_set=data)
+	def __buildtree(data):
+		if data.size == 0:
+			return DecisionTree.DecisionNode()
+
+		current_score = DecisionTree.__entropy(data_set=data)
 
 		best_gain = 0.0
 		best_criteria = None
 		best_sets = None
 
 		# For every column except result column
-		for col in range(0, data[0,:-1].size):
+		for col in range(0, data[0,:].size-1):
 			column_value_set = {}
 
 			# For every row
@@ -90,17 +95,17 @@ class DecisionTree(Classifier):
 
 				# Compute information gain
 				p = float(set1.size)/data[:,0].size
-				gain = current_score - p * score_function(set1) - (1-p) * score_function(set2)
+				gain = current_score - p * DecisionTree.__entropy(set1) - (1-p) * DecisionTree.__entropy(set2)
 				if (gain > best_gain and set1.size > 0 and set2.size > 0):
 					best_gain = gain
 					best_criteria = (col, val)
 					best_sets = (set1, set2)
 
 		if best_gain > 0:
-			trueBranch = DecisionTree.__buildtree()
-			falseBranch = DecisionTree.__buildtree()
+			true_branch = DecisionTree.__buildtree(best_sets[0])
+			false_branch = DecisionTree.__buildtree(best_sets[1])
 			return DecisionTree.DecisionNode(column_index=best_criteria[0], matching_value=best_criteria[1],
-			                                 true_node=trueBranch, false_node=falseBranch)
+			                                 true_node=true_branch, false_node=false_branch)
 		else:
 			return DecisionTree.DecisionNode(result=DecisionTree.__unique_count(data))
 
@@ -108,4 +113,4 @@ class DecisionTree(Classifier):
 		pass
 
 	def train(self, training_data):
-		pass
+		DecisionTree.__buildtree(training_data)

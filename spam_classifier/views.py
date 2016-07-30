@@ -2,10 +2,11 @@ import logging
 
 import numpy as np
 from django.shortcuts import render
-from multi_layer_perceptron import MultiLayerPerceptron
-from naive_bayes import NaiveBayes
+from ml_models.multi_layer_perceptron import MultiLayerPerceptron
+from ml_models.naive_bayes import NaiveBayes
+from ml_models.decision_tree import DecisionTree
 
-from ml_models import SpamData
+from models import SpamData
 from preprocess import text_to_frequencies, normalize_data, split_dataset
 from spam_classifier.ml_models.perceptron import Perceptron
 from .forms import TextForm, ImmutableTextForm
@@ -55,6 +56,10 @@ def index(request):
 				classification = network.classify(normalize_data(input_vector, False))
 				imgdir = 'img/' + network.plot(dir, np.arange(accuracy_train.size), accuracy_train, accuracy_valid)
 				accuracy = "Train: " + str(accuracy_train[accuracy_train.size-1]) + "% - Valid: " + str(accuracy_valid[accuracy_valid.size-1]) + "%"
+
+			elif choice == "dt":
+				dt = DecisionTree()
+				dt.train(training_data)
 
 			elif choice == "svm":
 				logger.info("Support vector machine")
